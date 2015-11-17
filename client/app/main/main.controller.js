@@ -3,6 +3,12 @@
 angular.module('workspaceApp')
   .controller('MainCtrl', function ($scope, $http, $timeout) {
 
+  	// Redirect to the provided path, used to redirect to /auth/twitter path
+    $scope.go = function ( path ) {
+    	if(!path) return;
+      	window.location.href = path;
+    };
+
     // Search location form
  	$scope.searchLocationForm = {
     	locationQuery: ""

@@ -42,12 +42,15 @@
             <a ng-href="{{ bar.url }}"><img class="img-rounded" ng-src="{{ bar.image_url }}" alt="Bar Image"></a>
               <img ng-src="{{ bar.rating_img_url_large }}" alt="Rating Image"> 
               {{ bar.review_count }} reviews
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="button" class="btn btn-default" ng-click="go('/auth/twitter')">0 going</button>
           </p>
           <p class="snippet" ng-show="bar.snippet_text">
             <i class="snippet ng-binding">"{{ bar.snippet_text }}"</i>
           </p>
         </div>
       </li>
+
       <br>
     </ul>
   </div>
