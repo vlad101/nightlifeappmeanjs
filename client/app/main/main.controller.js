@@ -4,19 +4,8 @@ angular.module('workspaceApp')
   .controller('MainCtrl', function ($scope, $http) {
     $scope.awesomeThings = [];
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
+    $scope.loc = 'Brooklyn';
+    $http.get('/api/yelp/location/' + $scope.loc).success(function(yelpSearchResults) {
+      $scope.yelpSearchResults = yelpSearchResults;
     });
-
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
   });

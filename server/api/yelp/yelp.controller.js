@@ -1,57 +1,25 @@
 'use strict';
 
 var _ = require('lodash');
-var Yelp = require('./yelp.model');
+
+// load the auth variables
+var configYelp = require('../../config/yelp');
+
+var yelp = require("yelp").createClient({
+  consumer_key        : configYelp.yelp.consumer_key, 
+  consumer_secret     : configYelp.yelp.consumer_secret,
+  token               : configYelp.yelp.token,
+  token_secret        : configYelp.yelp.token_secret
+});
 
 // Get list of yelps
 exports.index = function(req, res) {
-  Yelp.find(function (err, yelps) {
-    if(err) { return handleError(res, err); }
-    return res.status(200).json(yelps);
-  });
-};
-
-// Get a single yelp
-exports.show = function(req, res) {
-  Yelp.findById(req.params.id, function (err, yelp) {
-    if(err) { return handleError(res, err); }
-    if(!yelp) { return res.status(404).send('Not Found'); }
-    return res.json(yelp);
-  });
-};
-
-// Creates a new yelp in the DB.
-exports.create = function(req, res) {
-  Yelp.create(req.body, function(err, yelp) {
-    if(err) { return handleError(res, err); }
-    return res.status(201).json(yelp);
-  });
-};
-
-// Updates an existing yelp in the DB.
-exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Yelp.findById(req.params.id, function (err, yelp) {
-    if (err) { return handleError(res, err); }
-    if(!yelp) { return res.status(404).send('Not Found'); }
-    var updated = _.merge(yelp, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.status(200).json(yelp);
+    //See http://www.yelp.com/developers/documentation/v2/search_api
+    if(!req.params.location) { return handleError(res, err); }
+    yelp.search({term: "food", location: req.params.location}, function(error, data) {
+      if(error) { return handleError(res, err); }
+      return res.status(200).json(data);
     });
-  });
-};
-
-// Deletes a yelp from the DB.
-exports.destroy = function(req, res) {
-  Yelp.findById(req.params.id, function (err, yelp) {
-    if(err) { return handleError(res, err); }
-    if(!yelp) { return res.status(404).send('Not Found'); }
-    yelp.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.status(204).send('No Content');
-    });
-  });
 };
 
 function handleError(res, err) {
