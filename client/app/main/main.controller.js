@@ -1,11 +1,47 @@
 'use strict';
 
 angular.module('workspaceApp')
-  .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
+  .controller('MainCtrl', function ($scope, $http, $timeout) {
 
-    $scope.loc = 'Brooklyn';
-    $http.get('/api/yelp/location/' + $scope.loc).success(function(yelpSearchResults) {
-      $scope.yelpSearchResults = yelpSearchResults;
-    });
+    // Search location form
+ 	$scope.searchLocationForm = {
+    	locationQuery: ""
+   	};
+
+    // Hide loading spinner.
+	$scope.loaded = true;
+
+   	// Search location function returns found results by location
+    $scope.searchLocation = function () {
+
+    	// Show loading spinner.
+  		$scope.loaded = false;
+
+  		// Hide search results
+  		$scope.yelpSearchResults = "";
+
+  		// Set timeout to search function so user would see the spinner for at least 1 second
+    	$timeout( function(){ 
+    		$scope.searchLocationTimeout(); 
+    	}, 1000);
+    };
+
+    // Search location query
+    $scope.searchLocationTimeout = function () {
+
+	    // Get results for locaton query
+	    $http.get('/api/yelp/location/' + $scope.searchLocationForm.locationQuery)
+	        .then(function successCallback(yelpSearchResults) {
+	            $scope.yelpSearchResults = yelpSearchResults;
+	          }, function errorCallback(response) { 
+	          	$scope.yelpSearchResults = "Cannot find location, try again!";
+	    });
+
+	    // Display the value in the form
+        $scope.searchLocationForm.locationQuery = $scope.searchLocationForm.locationQuery;
+
+    	// Hide loading spinner.
+    	$scope.loaded = true;
+    };
+
   });

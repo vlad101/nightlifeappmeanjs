@@ -2,22 +2,53 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+    <h1>RFID LIST?</h1>
+    <img src="assets/images/party.jpg" height="42" width="42" alt="I'm Party Image">
   </div>
 </header>
 
+<br><br>
 <div class="container">
-{{ yelpSearchResults }}
-<!--   <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="result in yelpSearchResults">
-        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}</a></li>
-      </ul>
+  <form role="form" ng-submit="searchLocation()">
+    <div class="row">
+      <div class="input-group">
+        <input type="text" name="choice" ng-model="searchLocationForm.locationQuery" placeholder="Search Location" class="form-control" required>
+        <span class="input-group-btn">
+          <input type="submit" class="btn btn-primary" value="Go">
+        </span>
+      </div>
     </div>
-  </div> -->
+  </form>
+
+  <div class="loading-spinner-holder text-center" ng-hide="loaded">
+    <br><br>
+    <div class="loading-spinner"><img src="../assets/images/loading/spinner/spinner.gif" /></div>
+  </div>
+
+  <br>
+  <div ng-show="yelpSearchResults.data.businesses" id="search-results-count">
+    <p>{{ yelpSearchResults.data.businesses.length }} results found</p>
+  </div>
+
+  <br>
+  <div ng-show="yelpSearchResults.data.businesses" id="search-results">
+    <h2>Result listing for location near "{{ searchLocationForm.locationQuery }}"</h2>
+    <ul ng-repeat="bar in yelpSearchResults.data.businesses">
+      <li class="nav nav-tabs nav-stacked col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="!bar.is_closed">
+        <p>
+          <br>
+          <a ng-href="{{ bar.url }}">{{ bar.name }}</a><br>
+          <a ng-href="{{ bar.url }}"><img class="img-rounded" ng-src="{{ bar.image_url }}" alt="Bar Image"></a>
+            <img ng-src="{{ bar.rating_img_url_large }}" alt="Rating Image"> 
+            {{ bar.review_count }} reviews
+        </p>
+        <p class="snippet" ng-show="bar.snippet_text">
+          <i class="snippet ng-binding">"{{ bar.snippet_text }}"</i>
+        </p>
+      </li>
+      <br>
+    </ul>
+  </div>
 </div>
 
 <footer class="footer">

@@ -5,6 +5,6 @@ var controller = require('./yelp.controller');
 
 var router = express.Router();
 
-router.get('/location/:location', controller.index);
+router.get('/location/:locationQuery', controller.search);
 
 module.exports = router;
