@@ -32,3 +32,24 @@
 .navbar-text {
     margin-left: 15px;
 }
+
+#bar-info {
+    margin-left: 2%;
+}
+
+/* Mouse over found search item */
+li {
+    padding-left: 2%;
+    border-bottom: 1px solid #ccc;
+}
+
+li:hover {
+    background: #F0F8FF;
+
+    /*Zoom*/
+    -webkit-transform:scale(1.05); /* Safari and Chrome */
+    -moz-transform:scale(1.05); /* Firefox */
+    -ms-transform:scale(1.05); /* IE 9 */
+    -o-transform:scale(1.05); /* Opera */
+     transform:scale(1.05);
+}

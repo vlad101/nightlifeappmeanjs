@@ -32,19 +32,21 @@
 
   <br>
   <div ng-show="yelpSearchResults.data.businesses" id="search-results">
-    <h2>Result listing for location near "{{ searchLocationForm.locationQuery }}"</h2>
+    <h3>Result listing for bars near "{{ searchLocationForm.locationQuery }}"</h3>
     <ul ng-repeat="bar in yelpSearchResults.data.businesses">
       <li class="nav nav-tabs nav-stacked col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="!bar.is_closed">
-        <p>
-          <br>
-          <a ng-href="{{ bar.url }}">{{ bar.name }}</a><br>
-          <a ng-href="{{ bar.url }}"><img class="img-rounded" ng-src="{{ bar.image_url }}" alt="Bar Image"></a>
-            <img ng-src="{{ bar.rating_img_url_large }}" alt="Rating Image"> 
-            {{ bar.review_count }} reviews
-        </p>
-        <p class="snippet" ng-show="bar.snippet_text">
-          <i class="snippet ng-binding">"{{ bar.snippet_text }}"</i>
-        </p>
+        <div id="bar-info">
+          <p>
+            <br>
+            <a ng-href="{{ bar.url }}">{{ bar.name }}</a><br>
+            <a ng-href="{{ bar.url }}"><img class="img-rounded" ng-src="{{ bar.image_url }}" alt="Bar Image"></a>
+              <img ng-src="{{ bar.rating_img_url_large }}" alt="Rating Image"> 
+              {{ bar.review_count }} reviews
+          </p>
+          <p class="snippet" ng-show="bar.snippet_text">
+            <i class="snippet ng-binding">"{{ bar.snippet_text }}"</i>
+          </p>
+        </div>
       </li>
       <br>
     </ul>
