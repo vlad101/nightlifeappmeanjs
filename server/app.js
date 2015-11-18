@@ -24,7 +24,12 @@ if(config.seedDB) { require('./config/seed'); }
 // Setup server
 var app = express();
 var server = require('http').createServer(app);
-require('./config/express')(app);
+
+// Passport twitter setup
+var passport = require('passport');
+require('./config/passport')(passport);
+
+require('./config/express')(app, passport);
 require('./routes')(app);
 
 // Start server

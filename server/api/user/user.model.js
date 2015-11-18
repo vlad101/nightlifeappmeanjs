@@ -4,9 +4,12 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  name: String,
-  info: String,
-  active: Boolean
+    twitter          : {
+        id           : String,
+        token        : String,
+        displayName  : String,
+        username     : String
+    }
 });
 
 module.exports = mongoose.model('User', UserSchema);
