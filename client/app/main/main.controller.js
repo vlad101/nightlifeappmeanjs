@@ -10,12 +10,21 @@ angular.module('workspaceApp')
     };
 
     // Search location form
- 	$scope.searchLocationForm = {
-    	locationQuery: ""
-   	};
+   	$scope.searchLocationForm = {
+      	locationQuery: ""
+     	};
 
-    // Hide loading spinner.
-	$scope.loaded = true;
+      // Hide loading spinner.
+  	$scope.loaded = true;
+
+    // Get user from session
+    $http.get('/api/sessions/')
+        .then(function successCallback(userInfo) {
+            for(var i in userInfo.data) {
+              if(i == "_id")
+                $scope.userId = userInfo.data[i];
+            }
+    });
 
    	// Search location function returns found results by location
     $scope.searchLocation = function () {
@@ -35,12 +44,6 @@ angular.module('workspaceApp')
     	}, 1000);
     };
 
-      // Get user from session
-      $http.get('/api/sessions/')
-          .then(function successCallback(userInfo) {
-              $scope.userInfo = userInfo.data;
-      });
-
     // Search location query
     $scope.searchLocationTimeout = function () {
 
@@ -54,14 +57,17 @@ angular.module('workspaceApp')
 	    });
 
 	    // Display the value in the form
-        $scope.searchLocationForm.locationQuery = $scope.searchLocationForm.locationQuery;
+      $scope.searchLocationForm.locationQuery = $scope.searchLocationForm.locationQuery;
 
-
-      INSERT HERE EXPOSE ALL BAR DATA TO GET THE USER THAT IS GOING
       // Get list of bars selected as going by other users
       $http.get('/api/bars/')
           .then(function successCallback(response) {
-              $scope.barListDb = getBarsDb(response.data)
+
+            // Expose dictionary of database bar info to front end
+            $scope.barDictDb = response.data;
+
+            // Expose list of bar ids and their occuerences to front end
+            $scope.barListDb = getBarsDb(response.data)
       });
 
     	// Hide loading spinner.
