@@ -35,6 +35,12 @@ angular.module('workspaceApp')
     	}, 1000);
     };
 
+      // Get user from session
+      $http.get('/api/sessions/')
+          .then(function successCallback(userInfo) {
+              $scope.userInfo = userInfo.data;
+      });
+
     // Search location query
     $scope.searchLocationTimeout = function () {
 
@@ -50,6 +56,8 @@ angular.module('workspaceApp')
 	    // Display the value in the form
         $scope.searchLocationForm.locationQuery = $scope.searchLocationForm.locationQuery;
 
+
+      INSERT HERE EXPOSE ALL BAR DATA TO GET THE USER THAT IS GOING
       // Get list of bars selected as going by other users
       $http.get('/api/bars/')
           .then(function successCallback(response) {

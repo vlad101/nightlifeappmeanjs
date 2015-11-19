@@ -9,6 +9,7 @@
 
 <br><br>
 <div class="container">
+
   <form role="form" ng-submit="searchLocation()">
     <div class="row">
       <div class="input-group">
@@ -38,6 +39,13 @@
   <ul ng-repeat="bar in yelpSearchResults.data.businesses">
     <li class="nav nav-tabs nav-stacked col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="!bar.is_closed">
       <div id="bar-info">
+ 
+      INSERT HERE
+        <h1 ng-show="barListDb.hasOwnProperty(bar.id) && ">{{ userInfo }}</h1>
+        <h1>User ID: </h1>
+        <h1>User ID from Bar: </h1>
+
+
         <p>
           <br>
           <a ng-href="{{ bar.url }}">{{ bar.name }}</a><br>
