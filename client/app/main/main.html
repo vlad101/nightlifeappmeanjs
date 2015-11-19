@@ -26,34 +26,42 @@
   </div>
 
   <br>
-  <div ng-show="yelpSearchResults.data.businesses" id="search-results-count">
-    <p>{{ yelpSearchResults.data.businesses.length }} results found</p>
+  <div ng-show="yelpSearchResultsError" >
+    <p>Cannot find location, try again!</p>
   </div>
 
   <br>
-  <div ng-show="yelpSearchResults.data.businesses" id="search-results">
-    <h3>Result listing for bars near "{{ searchLocationForm.locationQuery }}"</h3>
-    <ul ng-repeat="bar in yelpSearchResults.data.businesses">
-      <li class="nav nav-tabs nav-stacked col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="!bar.is_closed">
-        <div id="bar-info">
-          <p>
-            <br>
-            <a ng-href="{{ bar.url }}">{{ bar.name }}</a><br>
-            <a ng-href="{{ bar.url }}"><img class="img-rounded" ng-src="{{ bar.image_url }}" alt="Bar Image"></a>
-              <img ng-src="{{ bar.rating_img_url_large }}" alt="Rating Image"> 
-              {{ bar.review_count }} reviews
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="button" class="btn btn-default" ng-click="go('/auth/twitter')">0 going</button>
-          </p>
-          <p class="snippet" ng-show="bar.snippet_text">
-            <i class="snippet ng-binding">"{{ bar.snippet_text }}"</i>
-          </p>
-        </div>
-      </li>
-
-      <br>
-    </ul>
+  <div ng-show="yelpSearchResults.data.businesses" id="search-results-count">
+    <h3>{{ yelpSearchResults.data.businesses.length }} bar listings found near "{{ searchLocationForm.locationQuery }}"</h3>
   </div>
+
+  <ul ng-repeat="bar in yelpSearchResults.data.businesses">
+    <li class="nav nav-tabs nav-stacked col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="!bar.is_closed">
+      <div id="bar-info">
+        <p>
+          <br>
+          <a ng-href="{{ bar.url }}">{{ bar.name }}</a><br>
+          <a ng-href="{{ bar.url }}">
+              <img class="img-rounded" ng-show="bar.image_url" ng-src="{{ bar.image_url }}" alt="Bar Image">
+              <img class="img-rounded" ng-show="!bar.image_url" ng-src="assets/images/no_image.jpg" height="100" width="100" alt="Bar Image">
+          </a>
+          <img ng-src="{{ bar.rating_img_url_large }}" alt="Rating Image"> 
+            {{ bar.review_count }} reviews
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <!-- If current bar matches bar from database, 
+                    show the number of people going, otherwise show 0 -->
+            <button ng-show="barListDb.hasOwnProperty(bar.id)" type="button" class="btn btn-default" ng-click="go('/auth/twitter')">{{ barListDb[bar.id] }} going</button>
+            <button ng-show="!barListDb.hasOwnProperty(bar.id)" type="button" class="btn btn-default" ng-click="go('/auth/twitter')">0 going</button>
+        </p>
+        <p class="snippet" ng-show="bar.snippet_text">
+          <i class="snippet ng-binding">"{{ bar.snippet_text }}"</i>
+        </p>
+      </div>
+    </li>
+
+    <br>
+  </ul>
 </div>
 
 <footer class="footer">

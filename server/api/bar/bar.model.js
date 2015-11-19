@@ -4,9 +4,14 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var BarSchema = new Schema({
-  name: String,
-  info: String,
+
+  user_id: { type: Schema.Types.ObjectId},
+  bar_id: {
+            type: String,
+            required: true
+  },
   active: Boolean
+
 });
 
 module.exports = mongoose.model('Bar', BarSchema);

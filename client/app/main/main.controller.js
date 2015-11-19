@@ -20,6 +20,9 @@ angular.module('workspaceApp')
    	// Search location function returns found results by location
     $scope.searchLocation = function () {
 
+      // Hide error
+      $scope.yelpSearchResultsError = "";
+
     	// Show loading spinner.
   		$scope.loaded = false;
 
@@ -39,15 +42,41 @@ angular.module('workspaceApp')
 	    $http.get('/api/yelp/location/' + $scope.searchLocationForm.locationQuery)
 	        .then(function successCallback(yelpSearchResults) {
 	            $scope.yelpSearchResults = yelpSearchResults;
-	          }, function errorCallback(response) { 
-	          	$scope.yelpSearchResults = "Cannot find location, try again!";
+	          }, function errorCallback(response) {
+              // Show error
+	          	$scope.yelpSearchResultsError = "Cannot find location, try again!";
 	    });
 
 	    // Display the value in the form
         $scope.searchLocationForm.locationQuery = $scope.searchLocationForm.locationQuery;
 
+      // Get list of bars selected as going by other users
+      $http.get('/api/bars/')
+          .then(function successCallback(response) {
+              $scope.barListDb = getBarsDb(response.data)
+      });
+
     	// Hide loading spinner.
     	$scope.loaded = true;
     };
 
-  });
+});
+
+// Ge bars from database
+function getBarsDb(data) {
+
+  // Populate temp list with bar ids
+  var tempBarListDb = [];
+  for(var i in data)
+    tempBarListDb.push(data[i].bar_id);
+
+  // Get total number of occurences in a dictionary {bar_id: # of occurences}
+  var resultBarDictDb = { };
+  for(var i = 0; i < tempBarListDb.length; ++i) {
+      if(!resultBarDictDb[tempBarListDb[i]])
+          resultBarDictDb[tempBarListDb[i]] = 0;
+      ++resultBarDictDb[tempBarListDb[i]];
+  }
+
+  return resultBarDictDb;
+}
