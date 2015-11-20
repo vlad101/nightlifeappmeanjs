@@ -21,10 +21,25 @@ angular.module('workspaceApp')
     $http.get('/api/sessions/')
         .then(function successCallback(userInfo) {
             for(var i in userInfo.data) {
-              if(i == "_id")
+              if(i == "_id") {
                 $scope.userId = userInfo.data[i];
+              }
             }
+        // Get bars user goes to if user id is available
+        if($scope.userId) {
+          $http.get('/api/bars/user/' + $scope.userId)
+              .then(function successCallback(userBarList) {
+
+                var tempUserBarList = []; 
+
+                for(var i in userBarList.data) {
+                      tempUserBarList.push(userBarList.data[i]['bar_id']);
+                }
+                $scope.userBarList = tempUserBarList;
+          });
+        }
     });
+
 
    	// Search location function returns found results by location
     $scope.searchLocation = function () {
@@ -62,9 +77,6 @@ angular.module('workspaceApp')
       // Get list of bars selected as going by other users
       $http.get('/api/bars/')
           .then(function successCallback(response) {
-
-            // Expose dictionary of database bar info to front end
-            $scope.barDictDb = response.data;
 
             // Expose list of bar ids and their occuerences to front end
             $scope.barListDb = getBarsDb(response.data)

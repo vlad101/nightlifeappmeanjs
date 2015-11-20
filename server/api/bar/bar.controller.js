@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var ObjectId = require('mongoose').Types.ObjectId;
 var Bar = require('./bar.model');
 
 // Get list of bars
@@ -17,6 +18,14 @@ exports.show = function(req, res) {
     if(err) { return handleError(res, err); }
     if(!bar) { return res.status(404).send('Not Found'); }
     return res.json(bar);
+  });
+};
+
+// Get a bar list by user id
+exports.showByUserId = function(req, res) {
+  Bar.find({"user_id" : ObjectId(req.params.userId)}, function (err, bars) {
+    if(err) { return handleError(res, err); }
+    return res.json(bars);
   });
 };
 
