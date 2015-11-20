@@ -18,7 +18,7 @@ angular.module('workspaceApp')
   	$scope.loaded = true;
 
     // Get user from session
-    $http.get('/api/sessions/')
+    $http.get('/api/sessions/user')
         .then(function successCallback(userInfo) {
             for(var i in userInfo.data) {
               if(i == "_id") {
@@ -38,6 +38,16 @@ angular.module('workspaceApp')
                 $scope.userBarList = tempUserBarList;
           });
         }
+    });
+
+    // Get user from session
+    $http.get('/api/sessions/redirect')
+        .then(function successCallback(redirectLocation) {
+          console.log("!!!!!!!!!");
+          console.log("!!!!!!!!!");
+          console.log(redirectLocation.data);
+          console.log("!!!!!!!!!");
+          console.log("!!!!!!!!!");
     });
 
 

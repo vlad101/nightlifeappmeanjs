@@ -14,10 +14,15 @@ var yelp = require("yelp").createClient({
 
 // Get list of yelps
 exports.search = function(req, res, err) {
+  
     //See http://www.yelp.com/developers/documentation/v2/search_api
     if(!req.params.locationQuery) { return handleError(res, err); }
     yelp.search({term: "bar", location: req.params.locationQuery}, function(error, data) {
       if(error) { return handleError(res, error); }
+
+      // Save the search query to the session
+      req.session.locationQuery = req.params.locationQuery;
+
       return res.status(200).json(data);
     });
 };

@@ -59,7 +59,7 @@
           <!-- If user is logged in and joined event, show "Cancel" button -->
           <button ng-show="userBarList.indexOf(bar.id) != -1 && userId" type="button" class="btn btn-danger">Cancel Event</button>
 
-          <!-- If user is logged in and not joined event, show "Cancel" button -->
+          <!-- If user is logged in and not joined event, show "Join" button -->
           <button ng-show="userBarList.indexOf(bar.id) == -1 && userId" type="button" class="btn btn-success">Join Event</button>
 
           <!-- If user is not logged, redirect to twitter -->
