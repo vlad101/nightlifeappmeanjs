@@ -6,6 +6,7 @@ var controller = require('./session.controller');
 var router = express.Router();
 
 router.get('/user', controller.getUserSession);
-router.get('/redirect', controller.getRedirectSession);
+router.get('/setRedirect/:redirectLocationQuery', controller.setRedirectSession);
+router.get('/getRedirect', controller.getRedirectSession);
 
 module.exports = router;

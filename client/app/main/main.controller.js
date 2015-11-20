@@ -6,16 +6,16 @@ angular.module('workspaceApp')
   	// Redirect to the provided path, used to redirect to /auth/twitter path
     $scope.go = function ( path ) {
     	if(!path) return;
-      	window.location.href = path;
+
+      // Set redirect query on twitter oath call
+      if(path == "/twitter/auth/") {
+        $http.get('/api/sessions/setRedirect/' + $scope.searchLocationForm.locationQuery)
+        .then(function successCallback(redirectLocation) {
+          // 
+        });
+      }
+      window.location.href = path;
     };
-
-    // Search location form
-   	$scope.searchLocationForm = {
-      	locationQuery: ""
-     	};
-
-      // Hide loading spinner.
-  	$scope.loaded = true;
 
     // Get user from session
     $http.get('/api/sessions/user')
@@ -40,16 +40,27 @@ angular.module('workspaceApp')
         }
     });
 
-    // Get user from session
-    $http.get('/api/sessions/redirect')
+    // Get redirect location from session at twitter callback
+    $http.get('/api/sessions/getRedirect')
         .then(function successCallback(redirectLocation) {
-          console.log("!!!!!!!!!");
-          console.log("!!!!!!!!!");
-          console.log(redirectLocation.data);
-          console.log("!!!!!!!!!");
-          console.log("!!!!!!!!!");
+        console.log("user id: " + $scope.userId);
+        console.log("location: " + redirectLocation.data.length);
+        if($scope.userId != undefined && redirectLocation.data.length != 0) {
+          $timeout( function(){
+            $scope.searchLocationForm.locationQuery = redirectLocation.data;
+            $scope.searchLocationTimeout(); 
+          }, 1000);
+        }
+        console.log("!!!!" + redirectLocation.data);
     });
 
+    // Search location form
+   	$scope.searchLocationForm = {
+      	locationQuery: ""
+     	};
+
+    // Hide loading spinner.
+  	$scope.loaded = true;
 
    	// Search location function returns found results by location
     $scope.searchLocation = function () {
