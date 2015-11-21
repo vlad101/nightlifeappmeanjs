@@ -103,6 +103,49 @@ angular.module('workspaceApp')
     	$scope.loaded = true;
     };
 
+    $scope.joinButtonClick = function (barId) {
+
+      // Add bar to a list of bars attended by the users
+      // Change the join button to cancel button 
+      $scope.userBarList.push(barId);
+      
+      // Increment the value attending an event event
+      if($scope.barListDb.hasOwnProperty(barId)) {
+        // If bar in the db barlist, increment going people by 1
+        $scope.barListDb[barId]++;
+      } else {
+        // If bar is not in the db barlist, add the bar to db list and set the value to 1
+        $scope.barListDb[barId] = 1;
+      }
+    }
+
+    $scope.cancelButtonClick = function (barId) {
+
+      // Find bar in user lis
+      // Remove bar from a list of bars attended by the users
+      // Change the cancel button to join button 
+      for(var bar in $scope.userBarList) {
+          if($scope.userBarList[bar] == barId) {
+             $scope.userBarList.splice(bar, 1);
+          }
+      }
+      
+      // Decrement the value attending an event event
+      if($scope.barListDb.hasOwnProperty(barId))
+
+        // If people going is 0, remove the key-value pair from the dict
+        if($scope.userBarList[barId] == 1) {
+          for(var i = 0; i < $scope.barListDb.length; ++i)
+          {
+              if($scope.barListDb[i] == barId)
+                  $scope.barListDb.splice(i, 1);
+          }
+        } else {
+          // If more than one person going, decrement the number of people going
+          $scope.barListDb[barId]--;
+        }
+    }
+
 });
 
 // Ge bars from database

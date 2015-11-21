@@ -52,15 +52,15 @@
 
           <!-- If current bar matches bar from database, show the number of people going, otherwise show 0 -->           
           <button ng-show="barListDb.hasOwnProperty(bar.id)" type="button" class="btn btn-default" disabled>{{ barListDb[bar.id] }} people attending</button>
-          <button ng-show="!barListDb.hasOwnProperty(bar.id)" type="button" class="btn btn-default" disabled>No people attending</button>
+          <button ng-show="!barListDb.hasOwnProperty(bar.id)" type="button" class="btn btn-default" disabled>0 people attending</button>
 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
           <!-- If user is logged in and joined event, show "Cancel" button -->
-          <button ng-show="userBarList.indexOf(bar.id) != -1 && userId" type="button" class="btn btn-danger">Cancel Event</button>
+          <button ng-click="cancelButtonClick(bar.id)" ng-show="userBarList.indexOf(bar.id) != -1 && userId" type="button" class="btn btn-danger">Cancel Event</button>
 
           <!-- If user is logged in and not joined event, show "Join" button -->
-          <button ng-show="userBarList.indexOf(bar.id) == -1 && userId" type="button" class="btn btn-success">Join Event</button>
+          <button ng-click="joinButtonClick(bar.id)" id="join-event-button" ng-show="userBarList.indexOf(bar.id) == -1 && userId" type="button" class="btn btn-success">Join Event</button>
 
           <!-- If user is not logged, redirect to twitter -->
           <button ng-show="!userId" type="button" class="btn btn-primary" ng-click="go('/auth/twitter/')">Login with Twitter</button>
