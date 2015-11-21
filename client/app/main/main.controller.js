@@ -8,12 +8,9 @@ angular.module('workspaceApp')
     	if(!path) return;
 
       // Set redirect query on twitter oath call
-      if(path == "/twitter/auth/") {
         $http.get('/api/sessions/setRedirect/' + $scope.searchLocationForm.locationQuery)
         .then(function successCallback(redirectLocation) {
-          // 
         });
-      }
       window.location.href = path;
     };
 
@@ -43,15 +40,14 @@ angular.module('workspaceApp')
     // Get redirect location from session at twitter callback
     $http.get('/api/sessions/getRedirect')
         .then(function successCallback(redirectLocation) {
-        console.log("user id: " + $scope.userId);
-        console.log("location: " + redirectLocation.data.length);
-        if($scope.userId != undefined && redirectLocation.data.length != 0) {
-          $timeout( function(){
-            $scope.searchLocationForm.locationQuery = redirectLocation.data;
-            $scope.searchLocationTimeout(); 
-          }, 1000);
-        }
-        console.log("!!!!" + redirectLocation.data);
+          if(redirectLocation.data.length != 0) {
+            if($scope.userId != undefined && redirectLocation.data.length != 0) {
+              $timeout( function(){
+                $scope.searchLocationForm.locationQuery = redirectLocation.data;
+                $scope.searchLocationTimeout();
+              }, 1000);
+            }
+          }
     });
 
     // Search location form

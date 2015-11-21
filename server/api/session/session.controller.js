@@ -9,7 +9,6 @@ exports.getUserSession = function(req, res) {
 
 // Set location query on auth twitter login
 exports.setRedirectSession = function(req, res) {
-
   // Store redirect location query
   req.session.locationQuery = req.params.redirectLocationQuery;
   return res.status(200).json(req.session.locationQuery);
@@ -22,7 +21,7 @@ exports.getRedirectSession = function(req, res) {
   var redirectLocationQuery = req.session.locationQuery;
 
   // Clear session location query
-  req.session.locationQuery = null;
+  req.session.locationQuery = '';
 
   // Return stored redirection query
   return res.status(200).json(redirectLocationQuery);

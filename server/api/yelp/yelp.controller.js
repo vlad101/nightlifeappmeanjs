@@ -20,9 +20,6 @@ exports.search = function(req, res, err) {
     yelp.search({term: "bar", location: req.params.locationQuery}, function(error, data) {
       if(error) { return handleError(res, error); }
 
-      // Save the search query to the session
-      req.session.locationQuery = req.params.locationQuery;
-
       return res.status(200).json(data);
     });
 };
