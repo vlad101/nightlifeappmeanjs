@@ -2,8 +2,10 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>RFID LIST?</h1>
-    <img src="assets/images/party.jpg" height="42" width="42" alt="I'm Party Image">
+    <h1>
+      <img src="assets/images/party.jpg" height="150" width="150" alt="I'm Party Image">
+      Your One Stop Bar Search Directory!
+    </h1>
   </div>
 </header>
 
@@ -12,8 +14,9 @@
 
   <form role="form" ng-submit="searchLocation()">
     <div class="row">
+      <h3>Enter location</h3>
       <div class="input-group">
-        <input type="text" name="choice" ng-model="searchLocationForm.locationQuery" placeholder="Search Location" class="form-control" required>
+        <input type="text" name="choice" ng-model="searchLocationForm.locationQuery" placeholder="Ex: Brooklyn, NY or 10037" class="form-control" required>
         <span class="input-group-btn">
           <input type="submit" class="btn btn-primary" value="Go">
         </span>
@@ -28,7 +31,7 @@
 
   <br>
   <div ng-show="yelpSearchResultsError" >
-    <p>Cannot find location, try again!</p>
+    <p class="text-danger">Cannot find location, try again!</p>
   </div>
 
   <br>

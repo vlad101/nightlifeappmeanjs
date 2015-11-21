@@ -10,6 +10,7 @@ angular.module('workspaceApp')
       // Set redirect query on twitter oath call
         $http.get('/api/sessions/setRedirect/' + $scope.searchLocationForm.locationQuery)
         .then(function successCallback(redirectLocation) {
+          //
         });
       window.location.href = path;
     };
@@ -61,7 +62,7 @@ angular.module('workspaceApp')
    	// Search location function returns found results by location
     $scope.searchLocation = function () {
 
-      // Hide error
+      // Hide yelp search error
       $scope.yelpSearchResultsError = "";
 
     	// Show loading spinner.
@@ -105,6 +106,40 @@ angular.module('workspaceApp')
 
     $scope.joinButtonClick = function (barId) {
 
+      if(!$scope.userId || !barId)
+        return;
+
+      // Create bar
+      var bar = { 
+        "user_id": $scope.userId,
+        "bar_id": barId,
+        "active": true
+      }
+
+      // Add bar to the user bar list
+      $http.post('/api/bars/', bar)
+          .then(function successCallback(response) {
+              $scope.addUserBar(barId);
+            }, function errorCallback(response) {
+              alert("Something went wrong, try again!");
+      });
+    }
+
+    $scope.cancelButtonClick = function (barId) {
+      
+      if(!$scope.userId || !barId)
+        return;
+
+      // Remove bar from the user bar list
+      $http.delete('/api/bars/barId/' + barId + '/userId/' + $scope.userId + '/')
+          .then(function successCallback(response) {
+              $scope.removeUserBar(barId);
+            }, function errorCallback(response) {
+              alert("Something went wrong, try again!");
+      });
+    }
+
+    $scope.addUserBar = function(barId) {
       // Add bar to a list of bars attended by the users
       // Change the join button to cancel button 
       $scope.userBarList.push(barId);
@@ -119,9 +154,8 @@ angular.module('workspaceApp')
       }
     }
 
-    $scope.cancelButtonClick = function (barId) {
-
-      // Find bar in user lis
+    $scope.removeUserBar = function(barId) {
+      // Find bar in user bar list
       // Remove bar from a list of bars attended by the users
       // Change the cancel button to join button 
       for(var bar in $scope.userBarList) {

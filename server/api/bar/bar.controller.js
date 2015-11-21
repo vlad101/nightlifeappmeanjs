@@ -63,6 +63,14 @@ exports.destroy = function(req, res) {
   });
 };
 
+// Deletes a bar by bar_id and user_id from the DB.
+exports.destroyByBarIdAndUserId = function(req, res) {
+  Bar.remove({"bar_id": req.params.barId ,"user_id" : req.params.userId}, function(err, bar) {
+    if(err) { return handleError(res, err); }
+    return res.status(201).json(bar);
+  });
+};
+
 function handleError(res, err) {
   return res.status(500).send(err);
 }
