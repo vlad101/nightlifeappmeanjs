@@ -38,12 +38,12 @@
 }
 
 /* Mouse over found search item */
-li {
+#search-results li {
     padding-left: 2%;
     border-bottom: 1px solid #ccc;
 }
 
-li:hover {
+#search-results li:hover {
     background: #F0F8FF;
 
     /*Zoom*/
@@ -54,6 +54,11 @@ li:hover {
      transform:scale(1.05);
 }
 
-img {
+#search-results img {
     border-radius: 10px;
+}
+
+.fa.fa-sign-in, .fa.fa-power-off {
+    cursor: pointer; 
+    cursor: hand;
 }

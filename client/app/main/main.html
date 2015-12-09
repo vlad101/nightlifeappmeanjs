@@ -3,7 +3,7 @@
 <header class="hero-unit" id="banner">
   <div class="container">
     <h1>
-      <img src="assets/images/party.jpg" height="150" width="150" alt="I'm Party Image">
+      <i class="fa fa-glass fa-lg"></i>
       Your One Stop Bar Search Directory!
     </h1>
   </div>
@@ -26,7 +26,8 @@
 
   <div class="loading-spinner-holder text-center" ng-hide="loaded">
     <br><br>
-    <div class="loading-spinner"><img src="../assets/images/loading/spinner/spinner.gif" /></div>
+    <div class="loading-spinner"><i class="fa fa-spinner fa-3x"></i></div>
+    <!-- <div class="loading-spinner"><img src="../assets/images/loading/spinner/spinner.gif" /></div> -->
   </div>
 
   <br>
@@ -39,7 +40,7 @@
     <h3>{{ yelpSearchResults.data.businesses.length }} bar listings found near "{{ searchLocationForm.locationQuery }}"</h3>
   </div>
 
-  <ul ng-repeat="bar in yelpSearchResults.data.businesses">
+  <ul id="search-results" ng-repeat="bar in yelpSearchResults.data.businesses">
     <li class="nav nav-tabs nav-stacked col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="!bar.is_closed">
       <div id="bar-info">
         <p>

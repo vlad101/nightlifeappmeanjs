@@ -14,5 +14,10 @@ router.get('/callback/',
 		res.redirect('/');
   }
 );
-
+router.get('/logout', function(req, res) {
+  if(req.session.hasOwnProperty('user'))
+  	delete req.session.user;
+  req.logout();
+  res.redirect('/');
+});
 module.exports = router;
